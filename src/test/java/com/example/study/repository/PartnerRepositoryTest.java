@@ -36,7 +36,7 @@ public class PartnerRepositoryTest extends StudyApplicationTests {
         partner.setRegisteredAt(registeredAt);
         partner.setCreatedAt(createdAt);
         partner.setCreatedBy(createdBy);
-        partner.setCategoryId(categoryId);
+//        partner.setCategoryId(categoryId);
 
         Partner savedPartner = partnerRepository.save(partner);
         Assertions.assertEquals(savedPartner.getCeoName(), "CHO JUN");

@@ -1,7 +1,10 @@
 package com.example.study.controller;
 
 import com.example.study.model.SearchParam;
+import com.example.study.model.network.Header;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api")
@@ -21,5 +24,11 @@ public class GetController {
     @GetMapping("/getMultiParameter")
     public SearchParam getMultiPara(SearchParam searchParam) {
         return searchParam;
+    }
+
+    @GetMapping("/header")
+    public Header getHeader() {
+        // {"resultCode : "OK", description : OK"}
+        return Header.builder().transactionTime(LocalDateTime.now()).resultCode("OK").description("OK").build();
     }
 }

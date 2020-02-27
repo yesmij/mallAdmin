@@ -19,15 +19,23 @@ class UserRepositoryTest extends StudyApplicationTests {
 
     @Test
     public void create() {
-        User user = new User(); // not singleton
-        user.setAccount("testuser01");
-        user.setPassword("testuser01");
-        user.setStatus("REGISTERED");
-        user.setEmail("test03@gmail.com");
-        user.setPhoneNumber("923232332");
-        user.setRegisteredAt(LocalDateTime.now());
-        user.setCreatedAt(LocalDateTime.now());
-        user.setCreatedBy("adminUser");
+//        User user = new User(); // not singleton
+        String account = "testuser02";
+        String password = "testuser02";
+        String status = "REGISTERED";
+        String email = "test03@gmail.com";
+        String phoneNumber = "12345678";
+
+        User user = User.builder()
+                .account(account)
+                .password(password)
+                .status(status)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .build();
+
+        // Accessor(chain=true)
+        // User user1 = new User().setAccount("  ").setEmail("   ").setPassword(" ").....;
 
         User newUser = userRepository.save(user);
         Assertions.assertEquals(newUser.getStatus(), "REGISTERED");
@@ -54,14 +62,22 @@ class UserRepositoryTest extends StudyApplicationTests {
             System.out.println("received Price : " + orderGroup.getTotalPrice());
             System.out.println("received Quantiry : " + orderGroup.getTotalQuantity());
 
-                orderGroup.getOrderDetailList().forEach(orderGroupDetail -> {
+                orderGroup.getOrderDetailList().forEach(orderDetail -> {
 
                 System.out.println("============ Order Detail ===========");
-                System.out.println("status : " + orderGroupDetail.getStatus());
-                System.out.println("arrival date : " + orderGroupDetail.getArrivalDate());
-                System.out.println("order group : " + orderGroupDetail.getOrderGroup());
-                System.out.println("order price : " + orderGroupDetail.getTotalPrice());
+                System.out.println("status : " + orderDetail.getStatus());
+                System.out.println("arrival date : " + orderDetail.getArrivalDate());
+                System.out.println("order group : " + orderDetail.getOrderGroup());
+                System.out.println("order price : " + orderDetail.getTotalPrice());
 
+                    // Order detail vs Item Relationship 생성 &&&& Item - Partner Relationship
+                    System.out.println("============ Item Detail ===========");
+                    System.out.println("order item : " + orderDetail.getItem());
+                    System.out.println("order item : " + orderDetail.getItem().getName());
+                    System.out.println("Partner Name : " + orderDetail.getItem().getPartner().getName());
+                    System.out.println("Partner Info : " + orderDetail.getItem().getPartner().getCeoName());
+                    // Partner && Category Relationship
+                    System.out.println(("Category Name : " + orderDetail.getItem().getPartner().getCategory().getTitle()));
                 });
         });
 

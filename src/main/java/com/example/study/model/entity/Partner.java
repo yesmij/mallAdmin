@@ -1,24 +1,30 @@
 package com.example.study.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@ToString(exclude = {"itemList", "category"})
+@EntityListeners(AuditingEntityListener.class)
+@Builder
+@Accessors(chain=true)
 public class Partner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     private String name;
     private String status;
     private String address;
@@ -28,9 +34,23 @@ public class Partner {
     private String businessNumber;
     private LocalDateTime registeredAt;
     private LocalDateTime unregisteredAt;
+    @CreatedDate
     private LocalDateTime createdAt;
-    private String createdBy;
+
+    @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedBy
     private String updatedBy;
-    private Long categoryId;
+
+
+    //private Long categoryId;
+    @ManyToOne
+    private Category category;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "partner")
+    private List<Item> itemList;
 }
